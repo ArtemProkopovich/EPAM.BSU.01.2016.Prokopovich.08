@@ -6,14 +6,29 @@ using System.Threading.Tasks;
 
 namespace Task2_Tree
 {
+
+
     public class BinarySearchTree<T>
     {
+
+        private class Node<T>
+        {
+            public Node(T value)
+            {
+                this.Value = value;
+            }
+
+            public T Value { get; set; }
+            public Node<T> LeftNode { get; set; }
+            public Node<T> RightNode { get; set; }
+        }
+
         private Node<T> root = null;
         private readonly Comparison<T> comparison;
 
         public BinarySearchTree(IComparer<T> comparer)
         {
-            comparison = comparer.Compare; 
+            comparison = comparer.Compare;
         }
 
         public BinarySearchTree(Comparison<T> comparison)
@@ -53,14 +68,14 @@ namespace Task2_Tree
                 prev.RightNode = new Node<T>(item);
         }
 
-        public Node<T> Find(T item)
+        public T Find(T item)
         {
-            return OrderPass().ToList().Find(node => comparison(node.Value, item) == 0);
+            return OrderPass().ToList().Find(node => comparison(node, item) == 0);
         }
 
         public bool IsExist(T item)
         {
-            return OrderPass().Any(node => comparison(node.Value, item) == 0);
+            return OrderPass().Any(node => comparison(node, item) == 0);
         }
 
         public T Max()
@@ -112,25 +127,25 @@ namespace Task2_Tree
             return tempRoot;
         }
 
-        public IEnumerable<Node<T>> PreorderPass()
+        public IEnumerable<T> PreorderPass()
         {
             if (root != null)
-                return PreorderPass(root);
-            return new Node<T>[0];
+                return PreorderPass(root).Select(e => e.Value);
+            return new T[0];
         }
 
-        public IEnumerable<Node<T>> OrderPass()
+        public IEnumerable<T> OrderPass()
         {
             if (root != null)
-                return OrderPass(root);
-            return new Node<T>[0];
+                return OrderPass(root).Select(e => e.Value);
+            return new T[0];
         }
 
-        public IEnumerable<Node<T>> PostorderPass()
+        public IEnumerable<T> PostorderPass()
         {
             if (root != null)
-                return PostorderPass(root);
-            return new Node<T>[0];
+                return PostorderPass(root).Select(e => e.Value);
+            return new T[0];
         }
 
         private IEnumerable<Node<T>> PreorderPass(Node<T> item)
@@ -151,7 +166,7 @@ namespace Task2_Tree
             {
                 yield return item;
                 foreach (var t in OrderPass(item.LeftNode))
-                    yield return t;              
+                    yield return t;
                 foreach (var t in OrderPass(item.RightNode))
                     yield return t;
             }
@@ -160,7 +175,7 @@ namespace Task2_Tree
         private IEnumerable<Node<T>> PostorderPass(Node<T> item)
         {
             if (item != null)
-            {            
+            {
                 foreach (var t in PostorderPass(item.LeftNode))
                     yield return t;
                 foreach (var t in PostorderPass(item.RightNode))

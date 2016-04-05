@@ -25,7 +25,7 @@ namespace Task1_Matrix
 
         public override Matrix<T> Transpose()
         {
-            return new SquareMatrix<T>(matrixArray);
+            return new SymmetricMatrix<T>(matrixArray);
         }
 
         protected override T GetElement(int indexX, int indexY)

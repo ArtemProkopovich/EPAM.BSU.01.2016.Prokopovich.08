@@ -15,7 +15,7 @@ namespace Task1_Matrix
             matrixArray = new T[Width, Width];
         }
 
-        public SquareMatrix(T[,] matrix)
+        public SquareMatrix(T[,] matrix):this(matrix.GetLength(0))
         {
             if (matrix == null)
                 throw new NullReferenceException("");
@@ -29,21 +29,6 @@ namespace Task1_Matrix
                 }
         }
 
-        public override IEnumerable<T> GetColumn(int index)
-        {
-            if (index < 0 || index > Width - 1)
-                throw new IndexOutOfRangeException("");
-            for (int i = 0; i < Width; i++)
-                yield return matrixArray[i, index];
-        }
-
-        public override IEnumerable<T> GetRow(int index)
-        {
-            if (index < 0 || index > Width - 1)
-                throw new IndexOutOfRangeException("");
-            for (int i = 0; i < Width; i++)
-                yield return matrixArray[index, i];
-        }
 
         public override Matrix<T> Transpose()
         {

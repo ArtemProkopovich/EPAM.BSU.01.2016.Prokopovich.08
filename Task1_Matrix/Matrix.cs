@@ -19,12 +19,23 @@ namespace Task1_Matrix
             Width = width;
         }
 
-        protected Matrix()
+        protected Matrix() {}
+
+        public IEnumerable<T> GetColumn(int index)
         {
+            if (index < 0 || index > Width - 1)
+                throw new IndexOutOfRangeException("");
+            for (int i = 0; i < Width; i++)
+                yield return this[i, index];
         }
 
-        public abstract IEnumerable<T> GetRow(int index);
-        public abstract IEnumerable<T> GetColumn(int index);
+        public IEnumerable<T> GetRow(int index)
+        {
+            if (index < 0 || index > Width - 1)
+                throw new IndexOutOfRangeException("");
+            for (int i = 0; i < Width; i++)
+                yield return this[index, i];
+        }
 
         public T this[int indexX, int indexY]
         {

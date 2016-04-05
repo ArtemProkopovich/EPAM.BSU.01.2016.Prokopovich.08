@@ -9,38 +9,20 @@ namespace Task1_Matrix
     public class DiagonalMatrix<T> : Matrix<T>
     {
 
-        private T[] diagonalArray;
+        private readonly T[] diagonalArray;
 
         public DiagonalMatrix(int width) : base(width)
         {
             diagonalArray = new T[Width];
         }
 
-        public DiagonalMatrix(T[] diagonal)
+        public DiagonalMatrix(T[] diagonal) : this(diagonal.Length)
         {
             if (diagonal == null)
                 throw new NullReferenceException("");
             diagonalArray = new T[diagonal.Length];
             for (int i = 0; i < diagonal.Length; i++)
                 diagonalArray[i] = diagonal[i];
-        }
-
-        public override IEnumerable<T> GetColumn(int index)
-        {
-            if (index < 0 || index > Width - 1)
-                throw new ArgumentOutOfRangeException("");
-            for (int i = 0; i < Width; i++)
-            {
-                if (i == index)
-                    yield return diagonalArray[index];
-                else
-                    yield return default(T);
-            }
-        }
-
-        public override IEnumerable<T> GetRow(int index)
-        {
-            return GetColumn(index);
         }
 
         public override Matrix<T> Transpose()
