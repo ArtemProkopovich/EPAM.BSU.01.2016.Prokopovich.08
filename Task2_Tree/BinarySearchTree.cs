@@ -38,7 +38,7 @@ namespace Task2_Tree
 
         public BinarySearchTree()
         {
-            if (typeof (T).GetInterface(nameof(IComparable<T>)) != null)
+            if (typeof (T).GetInterface("IComparable`1") != null)
             {
                 comparison = (x, y) => (x as IComparable<T>).CompareTo(y);
             }

@@ -19,31 +19,47 @@ namespace Task2_Test
         private static PointTestCase pointTC = new PointTestCase();
         private static BookTestCase bookTC = new BookTestCase();
 
-
         [Test]
-        [TestCase(typeof(int))]
-        [TestCase(typeof(string))]
-        [TestCase(typeof(Book))]
-        [TestCase(typeof(Point))]
-        public void InitializeTreeWithType_Test<T>(Type type)
+        public void InitializeTreeWithType_Test()
         {     
             var tree = new BinarySearchTree<int>();
-            var list = tc.GetList(random).ToList();
+            var list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             foreach (var item in list)
                 Assert.IsTrue(tree.IsExist(item));
+
+            var tree1 = new BinarySearchTree<Book>();
+            var list1 = bookTC.GetList(random).ToList();
+            foreach (var item in list1)
+                tree1.Add(item);
+            foreach (var item in list1)
+                Assert.IsTrue(tree1.IsExist(item));
+
+            var tree2 = new BinarySearchTree<Point>(pointTC.Comparison());
+            var list2 = pointTC.GetList(random).ToList();
+            foreach (var item in list2)
+                tree2.Add(item);
+            foreach (var item in list2)
+                Assert.IsTrue(tree2.IsExist(item));
+
+            var tree3 = new BinarySearchTree<string>();
+            var list3 = stringTC.GetList(random).ToList();
+            foreach (var item in list3)
+                tree3.Add(item);
+            foreach (var item in list3)
+                Assert.IsTrue(tree3.IsExist(item));
         }
 
         [Test]
         public void PreorderTreeWitnIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             list.Sort();
-            var result = tree.PreorderPass().Select(e => e.Value).ToList();
+            var result = tree.PreorderPass().ToList();
             Assert.AreEqual(result, list);
         }
 
@@ -51,10 +67,10 @@ namespace Task2_Test
         public void OrderTreeWitnIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
-            var result = tree.OrderPass().Select(e => e.Value).ToList();
+            var result = tree.OrderPass().ToList();
             Assert.AreEqual(result.Count, list.Count);
         }
 
@@ -62,11 +78,11 @@ namespace Task2_Test
         public void PostorderTreeWitnIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             list.Sort((x, y) => -x.CompareTo(y));
-            var result = tree.PostorderPass().Select(e => e.Value).ToList();
+            var result = tree.PostorderPass().ToList();
             Assert.AreEqual(result.Count, list.Count);
         }
 
@@ -74,18 +90,18 @@ namespace Task2_Test
         public void FindWithIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             foreach (var item in list)
-                Assert.AreEqual(tree.Find(item).Value, item);
+                Assert.AreEqual(tree.Find(item), item);
         }
 
         [Test]
         public void MaxWithIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             Assert.AreEqual(tree.Max(), list.Max());
@@ -95,7 +111,7 @@ namespace Task2_Test
         public void MinWithIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             Assert.AreEqual(tree.Min(), list.Min());
@@ -105,13 +121,13 @@ namespace Task2_Test
         public void RemoveWithIntType_Test()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            List<int> list = GetIntList().ToList();
+            List<int> list = intTC.GetList(random).ToList();
             foreach (var item in list)
                 tree.Add(item);
             int itemIndex = random.Next(list.Count);
             tree.Remove(list[itemIndex]);
             Assert.IsFalse(tree.IsExist(list[itemIndex]));
-            var result = tree.PreorderPass().Select(e => e.Value).ToList();
+            var result = tree.PreorderPass().ToList();
             list.RemoveAt(itemIndex);
             list.Sort();
             Assert.AreEqual(result, list);
