@@ -36,6 +36,17 @@ namespace Task1_Test
         }
 
         [Test]
+        public void SymmetricAndSymmetricMatrixTest()
+        {
+            SymmetricMatrix<int> sm1 = new SymmetricMatrix<int>(new int[,] { { 2, 0 }, { 0, 2 } });
+            SymmetricMatrix<int> sm2 = new SymmetricMatrix<int>(new int[,] { { 2, 0 }, { 0, 2 } });
+            SymmetricMatrix<int> result = new SymmetricMatrix<int>(new int[,] { { 4, 0 }, { 0, 4 } });
+            Matrix<int> r = MatrixExtension.Add(sm1, sm2);
+            Assert.IsInstanceOf<SymmetricMatrix<int>>(r);
+            Assert.AreEqual(r[0, 0], result[0, 0]);
+        }
+
+        [Test]
         public void AddDiagonalAndDiagonalMatrixTest()
         {
             DiagonalMatrix<int> sm1 = new DiagonalMatrix<int>(new int[] {2, 2});
